@@ -80,6 +80,12 @@ body {
   z-index: 9998;
   opacity: 0.5;
 }
+
+/* Dokunmatik / mobil cihazlarda cursor gizle, normal imleç göster */
+@media (hover: none) and (pointer: coarse) {
+  .cursor, .cursor-ring { display: none !important; }
+  body { cursor: auto; }
+}
  
 body::before {
   content: '';
@@ -599,8 +605,8 @@ footer {
           <a href="tel:+905301293537" class="bio-link">
             <span class="bio-link-icon">◎</span> 0530 129 35 37
           </a>
-          <a href="mailto:yigitemirkalabalik0@gmail.com" class="bio-link">
-            <span class="bio-link-icon">◉</span> yigitemirkalabalik0@gmail.com
+          <a href="/cdn-cgi/l/email-protection#81f8e8e6e8f5e4ece8f3eae0ede0e3e0ede8eab1c1e6ece0e8edafe2eeec" class="bio-link">
+            <span class="bio-link-icon">◉</span> <span class="__cf_email__" data-cfemail="532a3a343a27363e3a2138323f3231323f3a386313343e323a3f7d303c3e">[email&#160;protected]</span>
           </a>
         </div>
       </div>
@@ -673,7 +679,7 @@ footer {
     <div class="hero-links">
       <a href="https://github.com/yigitemirkalabalik" target="_blank" rel="noopener noreferrer" class="btn btn-accent">GitHub ↗</a>
       <a href="https://www.linkedin.com/in/yi%C4%9Fit-emir-kalabal%C4%B1k-b068383a1/" target="_blank" rel="noopener noreferrer" class="btn">LinkedIn ↗</a>
-      <a href="mailto:yigitemirkalabalik0@gmail.com" class="btn">E-posta</a>
+      <a href="/cdn-cgi/l/email-protection#502939373924353d39223b313c3132313c393b6010373d31393c7e333f3d" class="btn">E-posta</a>
     </div>
     <div class="hero-scroll">
       <span class="scroll-line"></span>
@@ -757,12 +763,12 @@ footer {
       </div>
  
       <div class="project-card reveal">
-        <div class="project-num">P / 005</div>
-        <div class="project-title">Kalekol(Radar)</div>
+        <div class="project-num">P / 006</div>
+        <div class="project-title">Kalekol (Radar)</div>
         <p class="project-desc">Güncel sınır karakollarını teknolojik donanımlarla donatma projesinin Arduino elektronik başlangıç seviyesi prototipi.</p>
-        <a href="https://github.com/yigitemirkalabalik/Kalekol" target="_blank" rel="noopener noreferrer" class="project-link">GitHub'da İncele →</a>
+        <a href="#" class="project-link" style="opacity:0.45; pointer-events:none;">GitHub yakında →</a>
         <div class="project-tags">
-          <span class="tag">ESP32</span><span class="tag">Otomasyon</span><span class="tag">Donanım</span>
+          <span class="tag">Arduino</span><span class="tag">Radar</span><span class="tag">Sensör</span>
         </div>
       </div>
  
@@ -818,7 +824,7 @@ footer {
       </div>
       <div class="edu-card reveal">
         <div>
-          <div class="edu-dept">Bilişim Teknolojileri</div>
+          <div class="edu-dept">Mesleki Eğitim</div>
           <div class="edu-school">Karabük MTAL</div>
           <div class="edu-note">Mesleki ve Teknik Anadolu Lisesi</div>
         </div>
@@ -826,7 +832,7 @@ footer {
       </div>
       <div class="edu-card reveal">
         <div>
-          <div class="edu-dept">Bilişim Teknolojileri</div>
+          <div class="edu-dept">Mesleki Eğitim</div>
           <div class="edu-school">Halil Rıfat Paşa MTAL</div>
           <div class="edu-note">Mesleki ve Teknik Anadolu Lisesi</div>
         </div>
@@ -841,13 +847,13 @@ footer {
     <div class="footer-links">
       <a href="https://github.com/yigitemirkalabalik" target="_blank" rel="noopener noreferrer">GitHub</a>
       <a href="https://www.linkedin.com/in/yi%C4%9Fit-emir-kalabal%C4%B1k-b068383a1/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="mailto:yigitemirkalabalik0@gmail.com">Email</a>
+      <a href="/cdn-cgi/l/email-protection#2e574749475a4b43475c454f424f4c4f4247451e6e49434f4742004d4143">Email</a>
     </div>
   </footer>
  
 </div>
  
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── THEME ── */
 const html = document.documentElement;
 const themeToggle = document.getElementById('themeToggle');
@@ -867,26 +873,30 @@ themeToggle.addEventListener('click', () => {
 
 /* ── CURSOR ──
    Kritik: transform kullanmıyoruz.
-   position:fixed + transform = koordinat sistemi bozukluğu.
-   Sadece left/top ile set ediyoruz, transition da yok. */
+   Dokunmatik cihazlarda tamamen devre dışı. */
 const cursorEl = document.getElementById('cursor');
 const ringEl   = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
 
-document.addEventListener('mousemove', function(e) {
-  mx = e.clientX;
-  my = e.clientY;
-  cursorEl.style.left = (mx - 4.5) + 'px';
-  cursorEl.style.top  = (my - 4.5) + 'px';
-});
+const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-(function ringLoop() {
-  rx += (mx - rx) * 0.28;
-  ry += (my - ry) * 0.28;
-  ringEl.style.left = (rx - 15) + 'px';
-  ringEl.style.top  = (ry - 15) + 'px';
-  requestAnimationFrame(ringLoop);
-})();
+if (!isTouchDevice) {
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX;
+    my = e.clientY;
+    cursorEl.style.left = (mx - 4.5) + 'px';
+    cursorEl.style.top  = (my - 4.5) + 'px';
+  });
+
+  (function ringLoop() {
+    rx += (mx - rx) * 0.28;
+    ry += (my - ry) * 0.28;
+    ringEl.style.left = (rx - 15) + 'px';
+    ringEl.style.top  = (ry - 15) + 'px';
+    requestAnimationFrame(ringLoop);
+  })();
+}
  
 /* ── PCB TRACE INJECTION ── */
 function buildTrace(item) {
@@ -957,11 +967,12 @@ const sectionIds = ['ozet','projeler','yetenekler','egitim'];
 const navItems   = document.querySelectorAll('.nav-item[data-section]');
 
 function updateActiveNav() {
+  const threshold = window.innerHeight * 0.5;
   let current = '';
   sectionIds.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
-    if (el.getBoundingClientRect().top <= 80) current = id;
+    if (el.getBoundingClientRect().top <= threshold) current = id;
   });
   navItems.forEach(item => {
     item.classList.toggle('active', item.getAttribute('data-section') === current);
