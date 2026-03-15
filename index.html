@@ -82,9 +82,9 @@ body {
 }
 
 /* Dokunmatik / mobil cihazlarda cursor gizle, normal imleç göster */
-@media (hover: none) and (pointer: coarse) {
+@media (pointer: coarse), (hover: none) {
   .cursor, .cursor-ring { display: none !important; }
-  body { cursor: auto; }
+  body { cursor: auto !important; }
 }
  
 body::before {
@@ -877,7 +877,7 @@ themeToggle.addEventListener('click', () => {
 const cursorEl = document.getElementById('cursor');
 const ringEl   = document.getElementById('cursorRing');
 
-const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
 if (!isTouchDevice) {
   let mx = 0, my = 0, rx = 0, ry = 0;
