@@ -48,7 +48,7 @@
 }
 </script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
  
 <style>
 /* ── TEK TEMA — AYDINLIK / LACİVERT-MAVİ ── */
@@ -255,10 +255,10 @@ body {
 }
  
 .bio-name {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700; font-size: 15px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600; font-size: 15px;
   color: var(--text); margin-bottom: 14px;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
  
 .bio-links { display: flex; flex-direction: column; gap: 2px; }
@@ -349,22 +349,23 @@ body {
 }
 .hero-inner {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 64px; flex-wrap: wrap;
+  gap: 56px; flex-wrap: wrap;
 }
 .hero-text { flex: 1 1 420px; min-width: 280px; }
 .hero-photo-card {
   flex-shrink: 0;
-  width: 220px;
+  width: 300px;
+  margin-left: auto;
   background: var(--card);
-  padding: 12px;
-  border-radius: 22px;
-  border: 1px solid var(--border);
-  box-shadow: 0 24px 60px rgba(var(--accent-rgb),0.16), 0 6px 18px rgba(22,33,58,0.06);
+  padding: 14px;
+  border-radius: 28px;
+  border: none;
+  box-shadow: 0 30px 70px -10px rgba(var(--accent-rgb),0.28), 0 10px 30px rgba(22,33,58,0.10);
   opacity: 0; animation: fadeUp 0.7s 0.15s forwards;
 }
 .hero-photo {
   width: 100%; aspect-ratio: 3 / 4; object-fit: cover;
-  border-radius: 15px; display: block;
+  border-radius: 20px; display: block;
   background: var(--card-hover);
 }
 .hero-tag {
@@ -375,7 +376,7 @@ body {
 .hero-tag::before { content: '// '; color: var(--muted); }
  
 .hero-name {
-  font-family: 'Inter', sans-serif; font-weight: 800;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
   font-size: clamp(44px, 7.5vw, 90px); line-height: 1.02;
   letter-spacing: -0.02em; margin-bottom: 32px;
   opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
@@ -413,9 +414,6 @@ body {
 }
 .btn:hover::before { transform: translateX(0); }
 .btn:hover { color: var(--accent-fg); border-color: var(--accent); box-shadow: 0 8px 22px rgba(var(--accent-rgb),0.25); }
-.btn-accent { background: var(--accent-grad); color: var(--accent-fg); border-color: transparent; }
-.btn-accent::before { background: var(--bg); }
-.btn-accent:hover { color: var(--accent); }
  
 .hero-scroll {
   position: absolute; bottom: 40px; left: 0;
@@ -436,7 +434,7 @@ body {
 section { padding: 80px 0; border-top: 1px solid var(--border); }
 .section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 52px; }
 .section-num { font-size: 11px; color: var(--accent); letter-spacing: 0.2em; transition: color 0.35s ease; }
-.section-title { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 28px; letter-spacing: -0.02em; }
+.section-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.01em; }
  
 /* ── ÖZET ── */
 .about-text { font-size: 15px; line-height: 2; color: var(--text-soft); max-width: 680px; }
@@ -483,11 +481,11 @@ section { padding: 80px 0; border-top: 1px solid var(--border); }
   0%, 100% { opacity: 0.2; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.5); }
 }
-.more-text { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-soft); }
+.more-text { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-soft); }
 .more-sub { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
  
 .project-num { font-size: 10px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 18px; }
-.project-title { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 11px; letter-spacing: -0.01em; color: var(--text); }
+.project-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; margin-bottom: 11px; letter-spacing: -0.005em; color: var(--text); }
 .project-desc { font-size: 13px; line-height: 1.8; color: var(--text-soft); margin-bottom: 22px; }
 .project-link {
   font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
@@ -514,7 +512,7 @@ section { padding: 80px 0; border-top: 1px solid var(--border); }
   transition: padding-left 0.2s ease;
 }
 .skill-item:hover { padding-left: 6px; }
-.skill-name { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; flex: 1.2; color: var(--text); }
+.skill-name { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; flex: 1.2; color: var(--text); }
 .skill-bar-wrap { flex: 2; height: 5px; background: var(--border); border-radius: 999px; overflow: hidden; }
 .skill-bar {
   height: 100%; background: var(--accent-grad); border-radius: 999px;
@@ -535,7 +533,7 @@ section { padding: 80px 0; border-top: 1px solid var(--border); }
 }
 .edu-card:hover { background: var(--card-hover); box-shadow: 0 12px 32px rgba(var(--accent-rgb),0.1); transform: translateY(-2px); }
 .edu-dept { font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; transition: color 0.35s ease; }
-.edu-school { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 5px; letter-spacing: -0.01em; color: var(--text); }
+.edu-school { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; margin-bottom: 5px; letter-spacing: -0.005em; color: var(--text); }
 .edu-note { font-size: 12px; color: var(--muted); }
 .edu-year { font-size: 12px; color: var(--muted); white-space: nowrap; text-align: right; margin-top: 4px; }
 .edu-badge {
@@ -566,7 +564,7 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 700px) {
   .hero-inner { flex-direction: column-reverse; gap: 32px; }
-  .hero-photo-card { width: 150px; }
+  .hero-photo-card { width: 210px; margin-left: 0; }
   .projects-grid { grid-template-columns: 1fr; }
   .project-card.more-card { grid-column: auto; }
   .skills-layout { grid-template-columns: 1fr; gap: 28px; }
@@ -680,7 +678,7 @@ footer {
           sistem tasarımı ve Ar-Ge alanlarında ilerlemeyi hedefliyorum.
         </p>
         <div class="hero-links">
-          <a href="https://github.com/yigitemirkalabalik" target="_blank" rel="noopener noreferrer" class="btn btn-accent">GitHub ↗</a>
+          <a href="https://github.com/yigitemirkalabalik" target="_blank" rel="noopener noreferrer" class="btn">GitHub ↗</a>
           <a href="https://www.linkedin.com/in/yi%C4%9Fit-emir-kalabal%C4%B1k-b068383a1/" target="_blank" rel="noopener noreferrer" class="btn">LinkedIn ↗</a>
           <a href="mailto:yigitemirkalabalik@gmail.com" class="btn">E-posta</a>
         </div>
