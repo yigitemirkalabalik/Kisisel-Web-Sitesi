@@ -9,7 +9,8 @@
 <meta name="author" content="Yiğit Emir Kalabalık">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://yigitemirkalabalik.github.io/Kisisel-Web-Sitesi/">
-<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="icon" type="image/jpeg" href="assets/profile.jpg">
+<link rel="apple-touch-icon" href="assets/profile.jpg">
 
 <!-- Open Graph -->
 <meta property="og:type" content="profile">
@@ -91,6 +92,59 @@ body {
   background-image: url("assets/bg.jpg");
   background-size: cover; background-position: center;
   opacity: 0.05; pointer-events: none; z-index: 0;
+}
+
+/* ── CV ÖNİZLEME MODAL ── */
+.cv-modal {
+  position: fixed; inset: 0; z-index: 5000;
+  display: none; align-items: center; justify-content: center;
+  padding: 32px;
+}
+.cv-modal.open { display: flex; }
+.cv-modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(16,25,42,0.55);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  opacity: 0; transition: opacity 0.25s ease;
+}
+.cv-modal.open .cv-modal-backdrop { opacity: 1; }
+.cv-modal-box {
+  position: relative;
+  width: min(760px, 100%);
+  height: min(88vh, 980px);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 40px 100px rgba(16,25,42,0.35);
+  display: flex; flex-direction: column; overflow: hidden;
+  opacity: 0; transform: translateY(18px) scale(0.98);
+  transition: opacity 0.3s cubic-bezier(.34,1.2,.64,1), transform 0.3s cubic-bezier(.34,1.2,.64,1);
+}
+.cv-modal.open .cv-modal-box { opacity: 1; transform: translateY(0) scale(1); }
+.cv-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.cv-modal-title { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 14px; color: var(--text); }
+.cv-modal-actions { display: flex; align-items: center; gap: 10px; }
+.cv-modal-download {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--accent); text-decoration: none; padding: 7px 14px;
+  border: 1px solid var(--border-hover); border-radius: 10px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.cv-modal-download:hover { background: var(--accent-grad); color: var(--accent-fg); border-color: transparent; }
+.cv-modal-close {
+  width: 30px; height: 30px; border-radius: 9px; border: 1px solid var(--border-hover);
+  background: none; color: var(--text-soft); cursor: pointer; font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.cv-modal-close:hover { background: var(--accent-grad); color: var(--accent-fg); border-color: transparent; }
+.cv-modal-frame { flex: 1; width: 100%; border: none; background: var(--card-hover); }
+@media (max-width: 700px) {
+  .cv-modal { padding: 14px; }
+  .cv-modal-box { height: 90vh; border-radius: 18px; }
 }
 
  
@@ -231,29 +285,34 @@ body {
  
 .bio-dropdown {
   position: absolute;
-  top: calc(100% + 14px);
+  top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(-6px);
+  transform: translateX(-50%);
+  padding-top: 14px;
+  min-width: 250px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 200;
+}
+.bio-dropdown-card {
   background: var(--nav-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-hover);
   border-radius: 16px;
   padding: 18px 22px;
-  min-width: 250px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease 0.25s, transform 0.35s ease 0.25s, pointer-events 0.35s ease 0.25s;
   box-shadow: 0 16px 48px rgba(0,0,0,0.22);
-  z-index: 200;
+  transform: translateY(-6px);
+  transition: transform 0.25s cubic-bezier(.34,1.4,.64,1);
 }
  
-.nav-bio:hover .bio-dropdown,
-.nav-bio:focus-within .bio-dropdown {
+.nav-bio.dd-open .bio-dropdown {
   opacity: 1;
   pointer-events: all;
-  transform: translateX(-50%) translateY(0);
-  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(.34,1.4,.64,1), pointer-events 0s;
+}
+.nav-bio.dd-open .bio-dropdown-card {
+  transform: translateY(0);
 }
  
 .bio-name {
@@ -278,40 +337,50 @@ body {
 .bio-link:hover { color: var(--accent); padding-left: 4px; }
 .bio-link-icon { font-size: 12px; opacity: 0.55; flex-shrink: 0; display: flex; align-items: center; }
 .bio-link-icon svg { width: 12px; height: 12px; fill: currentColor; }
+.bio-link-btn {
+  background: none; border: none; border-bottom: 1px solid var(--border);
+  width: 100%; text-align: left; cursor: pointer;
+  font-family: 'Manrope', sans-serif;
+}
  
 /* ── GENERIC NAV DROPDOWN ── */
 .nav-dropdown {
   position: absolute;
-  top: calc(100% + 14px);
+  top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(-6px);
+  transform: translateX(-50%);
+  padding-top: 14px;
+  min-width: 210px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 200;
+}
+.nav-dropdown-card {
   background: var(--nav-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-hover);
   border-radius: 16px;
   padding: 16px 20px;
-  min-width: 210px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease 0.25s, transform 0.35s ease 0.25s, pointer-events 0.35s ease 0.25s;
   box-shadow: 0 16px 48px rgba(0,0,0,0.22);
-  z-index: 200;
+  transform: translateY(-6px);
+  transition: transform 0.25s cubic-bezier(.34,1.4,.64,1);
 }
-.nav-item:nth-child(2) .nav-dropdown { left: 0; transform: translateX(0) translateY(-6px); }
-.nav-item:last-child   .nav-dropdown { left: auto; right: 0; transform: translateX(0) translateY(-6px); }
+.nav-item:nth-child(2) .nav-dropdown { left: 0; transform: translateX(0); }
+.nav-item:nth-child(2) .nav-dropdown-card { transform: translateY(-6px); }
+.nav-item:last-child   .nav-dropdown { left: auto; right: 0; transform: translateX(0); }
+.nav-item:last-child   .nav-dropdown-card { transform: translateY(-6px); }
  
-.nav-item:hover .nav-dropdown,
-.nav-item:focus-within .nav-dropdown {
+.nav-item.dd-open .nav-dropdown {
   opacity: 1;
   pointer-events: all;
-  transform: translateX(-50%) translateY(0);
-  transition: opacity 0.2s ease, transform 0.3s cubic-bezier(.34,1.4,.64,1), pointer-events 0s;
 }
-.nav-item:nth-child(2):hover .nav-dropdown,
-.nav-item:nth-child(2):focus-within .nav-dropdown { transform: translateX(0) translateY(0); }
-.nav-item:last-child:hover  .nav-dropdown,
-.nav-item:last-child:focus-within .nav-dropdown   { transform: translateX(0) translateY(0); }
+.nav-item.dd-open .nav-dropdown-card {
+  transform: translateY(0);
+}
+.nav-item:nth-child(2).dd-open .nav-dropdown-card,
+.nav-item:last-child.dd-open .nav-dropdown-card { transform: translateY(0); }
  
 .nd-label {
   font-size: 9px;
@@ -455,17 +524,16 @@ section { padding: 80px 0; border-top: 1px solid var(--border); }
 .carousel-btn:disabled:hover { background: var(--card); color: var(--text); border-color: var(--border-hover); box-shadow: none; }
 .projects-grid {
   display: flex; gap: 20px;
-  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  overflow-x: auto; scroll-behavior: smooth;
   padding-bottom: 4px; scrollbar-width: none;
 }
 .projects-grid::-webkit-scrollbar { display: none; }
 .project-card {
   flex: 0 0 calc((100% - 40px) / 3);
-  scroll-snap-align: start;
   background: var(--card); padding: 34px;
   border: 1px solid var(--border); border-radius: 18px;
   box-shadow: 0 4px 18px rgba(22,33,58,0.04);
-  transition: background 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  transition: background 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   position: relative; overflow: hidden;
 }
 .project-card::before {
@@ -474,7 +542,7 @@ section { padding: 80px 0; border-top: 1px solid var(--border); }
   border-radius: 18px 18px 0 0;
   transition: width 0.3s ease;
 }
-.project-card:hover { background: var(--card-hover); border-color: var(--border-hover); box-shadow: 0 12px 32px rgba(var(--accent-rgb),0.1); transform: translateY(-2px); }
+.project-card:hover { background: var(--card-hover); border-color: var(--border-hover); box-shadow: 0 12px 32px rgba(var(--accent-rgb),0.1); }
 .project-card:hover::before { width: 100%; }
  
 .project-card.more-card {
@@ -596,8 +664,9 @@ footer {
   .nav-inner { border-radius: 0 0 10px 10px; }
   .nav-item { padding: 11px 13px 10px; }
   .nav-label { font-size: 9px; letter-spacing: 0.09em; }
-  .bio-dropdown { left: 0; transform: translateX(0) translateY(-6px); }
-  .nav-bio:hover .bio-dropdown { transform: translateX(0) translateY(0); }
+  .bio-dropdown { left: 0; transform: translateX(0); }
+  .bio-dropdown-card { transform: translateY(-6px); }
+  .nav-bio.dd-open .bio-dropdown-card { transform: translateY(0); }
 }
 
 </style>
@@ -606,16 +675,39 @@ footer {
  
 <div class="bg-photo"></div>
 <div class="grid-bg"></div>
+ 
+<!-- ── CV ÖNİZLEME MODAL ── -->
+<div class="cv-modal" id="cvModal">
+  <div class="cv-modal-backdrop" id="cvModalBackdrop"></div>
+  <div class="cv-modal-box">
+    <div class="cv-modal-header">
+      <span class="cv-modal-title">CV Önizleme</span>
+      <div class="cv-modal-actions">
+        <a href="assets/CV.pdf" download class="cv-modal-download">İndir ↓</a>
+        <button type="button" class="cv-modal-close" id="cvModalClose" aria-label="Kapat">✕</button>
+      </div>
+    </div>
+    <iframe src="assets/CV.pdf" class="cv-modal-frame" title="CV Önizleme">
+      Tarayıcın PDF önizlemeyi desteklemiyor — <a href="assets/CV.pdf">buradan indirebilirsin</a>.
+    </iframe>
+  </div>
+</div>
 
 <!-- ── NAVBAR ── -->
 <nav class="navbar" id="navbar">
   <div class="nav-inner" id="navInner">
  
-    <div class="nav-item nav-bio" tabindex="0">
+    <div class="nav-item nav-bio" tabindex="0" role="link" aria-label="Başa dön">
       <span class="nav-label">Biyografi</span>
       <div class="bio-dropdown">
+        <div class="bio-dropdown-card">
         <div class="bio-name">Yiğit Emir Kalabalık</div>
         <div class="bio-links">
+          <button type="button" class="bio-link bio-link-btn" id="cvOpenBtn2">
+            <span class="bio-link-icon">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+            </span> CV Önizle
+          </button>
           <a href="https://github.com/yigitemirkalabalik" target="_blank" rel="noopener noreferrer" class="bio-link">
             <span class="bio-link-icon">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -637,19 +729,23 @@ footer {
             </span> yigitemirkalabalik0@gmail.com
           </a>
         </div>
+        </div>
       </div>
     </div>
  
     <a href="#ozet" class="nav-item" data-section="ozet" tabindex="0">
       <span class="nav-label">Özet</span>
       <div class="nav-dropdown">
+        <div class="nav-dropdown-card">
         <div class="nd-label">Hakkında</div>
         <p class="nd-blurb"><em>Ar-Ge</em> ve ürün geliştirme odaklı öğrenci.<br>Elektronik, yazılım ve tasarım alanlarında çalışmalar.</p>
+        </div>
       </div>
     </a>
     <a href="#projeler" class="nav-item" data-section="projeler" tabindex="0">
       <span class="nav-label">Projeler</span>
       <div class="nav-dropdown">
+        <div class="nav-dropdown-card">
         <div class="nd-label">6 Proje</div>
         <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">İtfaiye Aracı</span><span class="nd-meta">Arduino</span></div>
         <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Direksiyon Kursu</span><span class="nd-meta">Web</span></div>
@@ -657,19 +753,39 @@ footer {
         <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">El Konsolu</span><span class="nd-meta">ESP32</span></div>
         <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">YEMGO</span><span class="nd-meta">Otomasyon</span></div>
         <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Kalekol (Radar)</span><span class="nd-meta">Sensör</span></div>
+        </div>
       </div>
     </a>
     <a href="#yetenekler" class="nav-item" data-section="yetenekler" tabindex="0">
       <span class="nav-label">Yetenekler</span>
       <div class="nav-dropdown">
+        <div class="nav-dropdown-card">
         <div class="nd-label">Teknolojiler</div>
         <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Donanım &amp; Gömülü Sistemler</span><span class="nd-meta">4 proje</span></div>
         <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Yazılım</span><span class="nd-meta">Web</span></div>
         <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Tasarım &amp; Medya</span><span class="nd-meta">Görsel</span></div>
+        </div>
       </div>
     </a>
     <a href="#egitim" class="nav-item" data-section="egitim" tabindex="0">
       <span class="nav-label">Eğitim</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-card">
+        <div class="nd-label">Okullar</div>
+        <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Safranbolu Şefik Yılmaz Dizdar MYO</span><span class="nd-meta">2025—</span></div>
+        <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Karabük MTAL</span><span class="nd-meta">2023—25</span></div>
+        <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Halil Rıfat Paşa MTAL</span><span class="nd-meta">2021—23</span></div>
+        </div>
+      </div>
+    </a>
+    <a href="#deneyim" class="nav-item" data-section="deneyim" tabindex="0">
+      <span class="nav-label">Deneyim</span>
+      <div class="nav-dropdown">
+        <div class="nav-dropdown-card">
+        <div class="nd-label">Deneyim</div>
+        <div class="nd-row"><span class="nd-dot"></span><span class="nd-text">Karabük Teknokent</span><span class="nd-meta">Staj</span></div>
+        </div>
+      </div>
     </a>
  
   </div>
@@ -691,6 +807,7 @@ footer {
           sistem tasarımı ve Ar-Ge alanlarında ilerlemeyi hedefliyorum.
         </p>
         <div class="hero-links">
+          <button type="button" class="btn" id="cvOpenBtn1">CV</button>
           <a href="https://github.com/yigitemirkalabalik" target="_blank" rel="noopener noreferrer" class="btn">GitHub ↗</a>
           <a href="https://www.linkedin.com/in/yi%C4%9Fit-emir-kalabal%C4%B1k-b068383a1/" target="_blank" rel="noopener noreferrer" class="btn">LinkedIn ↗</a>
           <a href="mailto:yigitemirkalabalik0@gmail.com" class="btn">E-posta</a>
@@ -871,6 +988,24 @@ footer {
     </div>
   </section>
  
+  <!-- DENEYİM -->
+  <section id="deneyim">
+    <div class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Deneyim</h2>
+    </div>
+    <div class="edu-stack" id="deneyim-stack">
+      <div class="edu-card reveal">
+        <div>
+          <div class="edu-dept">Staj</div>
+          <div class="edu-school">Karabük Teknokent</div>
+          <div class="edu-note">Şahsi ve kurumsal projeler üzerinde çalıştım — detaylar yakında eklenecek.</div>
+        </div>
+        <div class="edu-year"></div>
+      </div>
+    </div>
+  </section>
+ 
   <!-- FOOTER -->
   <footer>
     <span>© 2026 Yiğit Emir Kalabalık</span>
@@ -884,6 +1019,74 @@ footer {
 </div>
 
 <script>
+/* ── NAV DROPDOWNS (hover grubu — imleç üzerindeyken açık kalır,
+   başka menüye geçince öncekini anında kapatır) ── */
+(function() {
+  const groups = [];
+  document.querySelectorAll('.nav-item').forEach(trigger => {
+    const dropdown = trigger.querySelector('.nav-dropdown, .bio-dropdown');
+    if (!dropdown) return;
+    groups.push({ trigger, dropdown, closeTimer: null });
+  });
+
+  function closeNow(g) {
+    clearTimeout(g.closeTimer);
+    g.trigger.classList.remove('dd-open');
+  }
+  function openGroup(g) {
+    groups.forEach(other => { if (other !== g) closeNow(other); });
+    clearTimeout(g.closeTimer);
+    g.trigger.classList.add('dd-open');
+  }
+  function scheduleClose(g) {
+    clearTimeout(g.closeTimer);
+    g.closeTimer = setTimeout(() => g.trigger.classList.remove('dd-open'), 200);
+  }
+
+  groups.forEach(g => {
+    g.trigger.addEventListener('mouseenter', () => openGroup(g));
+    g.trigger.addEventListener('mouseleave', () => scheduleClose(g));
+    g.dropdown.addEventListener('mouseenter', () => clearTimeout(g.closeTimer));
+    g.dropdown.addEventListener('mouseleave', () => scheduleClose(g));
+    g.trigger.addEventListener('focusin', () => openGroup(g));
+    g.trigger.addEventListener('focusout', (e) => {
+      if (!g.trigger.contains(e.relatedTarget)) scheduleClose(g);
+    });
+  });
+})();
+ 
+/* ── BİYOGRAFİ → en üste kaydır (dropdown içindeki gerçek linklere dokunma) ── */
+(function() {
+  const navBio = document.querySelector('.nav-bio');
+  if (!navBio) return;
+  function goTop(e) {
+    if (e.target.closest('.bio-dropdown')) return;
+    document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+  }
+  navBio.addEventListener('click', goTop);
+  navBio.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('.bio-dropdown')) {
+      e.preventDefault();
+      document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+})();
+ 
+/* ── CV ÖNİZLEME MODAL ── */
+(function() {
+  const modal = document.getElementById('cvModal');
+  const backdrop = document.getElementById('cvModalBackdrop');
+  const closeBtn = document.getElementById('cvModalClose');
+  const openBtns = [document.getElementById('cvOpenBtn1'), document.getElementById('cvOpenBtn2')];
+  if (!modal) return;
+  function open() { modal.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function close() { modal.classList.remove('open'); document.body.style.overflow = ''; }
+  openBtns.forEach(btn => btn && btn.addEventListener('click', open));
+  closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+})();
+ 
 /* ── PCB TRACE INJECTION (sadece hover ile tetiklenir) ── */
 function buildTrace(item) {
   const w = item.offsetWidth;
