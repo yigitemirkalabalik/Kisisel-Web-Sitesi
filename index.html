@@ -472,6 +472,7 @@ body {
   font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
   padding: 12px 22px; border: 1px solid var(--border-hover); color: var(--text);
+  background: transparent; -webkit-appearance: none; appearance: none; cursor: pointer;
   transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.25s ease;
   position: relative; overflow: hidden;
   border-radius: 12px;
@@ -683,7 +684,7 @@ footer {
     <div class="cv-modal-header">
       <span class="cv-modal-title">CV Önizleme</span>
       <div class="cv-modal-actions">
-        <a href="assets/CV.pdf" download class="cv-modal-download">İndir ↓</a>
+        <a href="assets/CV.pdf" download="yigitemirkalabalikcv.pdf" class="cv-modal-download">İndir ↓</a>
         <button type="button" class="cv-modal-close" id="cvModalClose" aria-label="Kapat">✕</button>
       </div>
     </div>
