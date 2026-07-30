@@ -94,6 +94,28 @@ body {
   opacity: 0.05; pointer-events: none; z-index: 0;
 }
 
+/* ── AMBIENT GLOW (hero arkası, soluk ışık lekeleri) ── */
+.hero-ambient {
+  position: absolute; top: 0; left: 0; right: 0; height: 820px;
+  overflow: hidden; pointer-events: none; z-index: 0;
+}
+.hero-ambient::before, .hero-ambient::after {
+  content: ''; position: absolute; border-radius: 50%; filter: blur(70px);
+}
+.hero-ambient::before {
+  width: 560px; height: 560px; top: -180px; right: 4%;
+  background: radial-gradient(circle, rgba(var(--accent-rgb),0.22), transparent 68%);
+}
+.hero-ambient::after {
+  width: 440px; height: 440px; top: 40px; left: 2%;
+  background: radial-gradient(circle, rgba(79,143,247,0.16), transparent 70%);
+}
+@media (max-width: 700px) {
+  .hero-ambient { height: 560px; }
+  .hero-ambient::before { width: 320px; height: 320px; right: -60px; }
+  .hero-ambient::after { width: 260px; height: 260px; left: -60px; }
+}
+
 /* ── CV ÖNİZLEME MODAL ── */
 .cv-modal {
   position: fixed; inset: 0; z-index: 5000;
@@ -416,12 +438,13 @@ body {
  
 /* ── HERO ── */
 .hero {
-  min-height: 100vh; display: flex; flex-direction: column;
+  min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column;
   justify-content: center; padding: 100px 0 60px; position: relative;
 }
 .hero-inner {
   display: flex; align-items: center; justify-content: space-between;
   gap: 48px; flex-wrap: wrap;
+  position: relative; z-index: 1;
 }
 .hero-text { flex: 1 1 380px; min-width: 280px; }
 .hero-photo-card {
@@ -429,7 +452,7 @@ body {
   width: clamp(260px, 30vw, 400px);
   margin-left: auto;
   border-radius: 26px;
-  box-shadow: 0 34px 80px -14px rgba(var(--accent-rgb),0.32), 0 14px 34px rgba(22,33,58,0.14);
+  box-shadow: 0 46px 90px -16px rgba(var(--accent-rgb),0.42), 0 20px 45px rgba(16,25,42,0.28), 0 4px 14px rgba(16,25,42,0.16);
   opacity: 0; animation: fadeUp 0.7s 0.15s forwards;
 }
 .hero-photo {
@@ -525,7 +548,7 @@ section { padding: 80px 0; border-top: 1px solid var(--border); }
 .carousel-btn:disabled:hover { background: var(--card); color: var(--text); border-color: var(--border-hover); box-shadow: none; }
 .projects-grid {
   display: flex; gap: 20px;
-  overflow-x: auto; scroll-behavior: smooth;
+  overflow: hidden; scroll-behavior: smooth;
   padding-bottom: 4px; scrollbar-width: none;
 }
 .projects-grid::-webkit-scrollbar { display: none; }
@@ -654,6 +677,14 @@ footer {
   .project-card, .project-card.more-card { flex: 0 0 calc((100% - 20px) / 2); }
 }
 @media (max-width: 700px) {
+  .navbar { justify-content: flex-start; left: 0; right: 0; }
+  .nav-inner {
+    width: 100%; max-width: 100vw;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    border-radius: 0 0 14px 14px; justify-content: flex-start;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
   .hero-inner { flex-direction: column-reverse; gap: 32px; }
   .hero-photo-card { width: 220px; margin-left: 0; }
   .project-card, .project-card.more-card { flex: 0 0 88%; }
@@ -662,12 +693,25 @@ footer {
   .edu-year { text-align: left; }
   footer { flex-direction: column; gap: 20px; text-align: center; }
   .hero-name { font-size: clamp(36px, 11vw, 60px); }
-  .nav-inner { border-radius: 0 0 10px 10px; }
-  .nav-item { padding: 11px 13px 10px; }
+  .nav-item { padding: 11px 13px 10px; flex-shrink: 0; }
   .nav-label { font-size: 9px; letter-spacing: 0.09em; }
   .bio-dropdown { left: 0; transform: translateX(0); }
   .bio-dropdown-card { transform: translateY(-6px); }
   .nav-bio.dd-open .bio-dropdown-card { transform: translateY(0); }
+  .nav-item:nth-child(2) .nav-dropdown,
+  .nav-item:last-child .nav-dropdown { left: 0; right: auto; transform: translateX(0); }
+  .nav-dropdown, .bio-dropdown { max-width: calc(100vw - 32px); }
+  .nav-dropdown-card, .bio-dropdown-card { max-width: calc(100vw - 32px); }
+  .container { padding: 0 18px; }
+  .project-card, .edu-card { padding: 24px; }
+  .skill-item { padding: 20px; }
+}
+@media (max-width: 380px) {
+  .container { padding: 0 14px; }
+  .hero-links .btn { padding: 11px 16px; font-size: 11px; }
+  .project-card, .edu-card { padding: 18px; }
+  .skill-item { padding: 16px; flex-direction: column; }
+  .skill-icon { margin-bottom: 4px; }
 }
 
 </style>
@@ -676,6 +720,7 @@ footer {
  
 <div class="bg-photo"></div>
 <div class="grid-bg"></div>
+<div class="hero-ambient"></div>
  
 <!-- ── CV ÖNİZLEME MODAL ── -->
 <div class="cv-modal" id="cvModal">
